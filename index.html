@@ -1,6 +1,61 @@
+<head>
+
+<style> 
+@font-face {
+   font-family: myFont;
+   src: url(/fonts/basictitlefont.ttf);
+}
+
+div.title {
+   font-family: myFont;
+   vertical-align: middle;
+   text-align: center;
+   font-size: 350%;
+   color: #838383;
+}
+
+button.JoinDebate {
+   height: 45px;
+   border-color: #529ECC;
+   background: none repeat scroll 0% 0% #529ECC;
+   font-size: 16px;
+   width: 100%;
+   margin: 12px 0px 0px;
+   padding: 0px 10px;
+   padding-top: 0px;
+   padding-right-value: 10px;
+   padding-bottom: 0px;
+   padding-left-value: 10px;
+   padding-left-ltr-source: physical;
+   padding-left-rtl-source: physical;
+   padding-right-ltr-source: physical;
+   padding-right-rtl-source: physical;
+   font-size: 20px;
+   line-height: 28px;
+   color: #FFF;
+   font-weight: bold;
+   border-width: 1px;
+   border-style: solid;
+}
+
+</style>
+
+</head>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
 </script>
 
-hello
+<body>
+<br>
+<br>
+<br>
+<br>
+	<div class="title">
+		Debatonator V1.0
+	</div>
+	<button class = "JoinDebate">
+		Join A Debate
+	</button>
+</body>
