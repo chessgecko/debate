@@ -14,7 +14,7 @@ exports.getDebates = function(req, res){
 
 io.on('connection', function(socket){
 	socket.on('joinDebate', function(msg){
-		debate.findOne({room: debate.room}, function(err, debate){
+		debate.findOne({room: msg.room}, function(err, debate){
 			if(err){
 				console.log(err);
 				return;
@@ -83,25 +83,42 @@ socket.on('createDebate', function(msg){
 	});
 });
 
+	socket.on("send sound", function(msg){
+		debate.findOne({room:msg.room}, function(err, debate){
+			if(err){
+				console.log(err);
+				return;
+			}
+			if(debate.speakerKey != msg.speakerKey){
+				console.log("invalid speaker key");
+				return;
+			}
+			debate.debaterSockets[debate.speakerNum].broadcast.to(msg.room).emit("send sound", msg.sound);
+		})
+	});
+
 });
 
 var startDebate = function(debate){
-	io.sockets.in(debate.room).emit("thinking time", 10000);
+	io.sockets.in(debate.room).emit("thinking time", {time:10000});
 	setTimeout(startTalking(debate), 10000);
 }
 
 var startTalking = function(debate){
 	if(debate.speakerNum < debate.maxNum){
-		io.sockets.in(debate.room).emit("talking time", 15000);
+		io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:15000});
 		debate.speakerKey = Math.floor((Math.random() * 1000000) + 1); 
 		debate.speaker =debate.debaters[debate.speakerNum];
 		debate.markModified('speaker');
 		debate.markModified('speakerKey');
-
-		debate.debaterSockets[debate.speakerNum].emit("your turn to speak", {key:debate.speakerKey});
-
 		debate.save();
-
+		debate.debaterSockets[debate.speakerNum].emit("your turn to speak", {key:debate.speakerKey});
+		debate.speakerNum++;
+		debate.markModified('speakerNum');
+		debate.save();
+		setTimeout(startTalking(debate), 15000);
+	} else {
+		io.sockets.in(debate.room).emit("debate over" , {snum:debate.speakerNum, time:15000});
 	}
 }
 

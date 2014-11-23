@@ -21,9 +21,9 @@ var DebateSchema   = new mongoose.Schema({
   observers: Array, 		//ids of people observing the debate
   observerSockets: Array,	//sockets of observers
   speaker: String, 			//the username of the current person speaking
-  speakerNum: int, 			//the number of the current speaker in the array of debaters
-  speakerKey: int 			//this is a random key to ensure validity of speaker
-  
+  speakerNum: Number, 			//the number of the current speaker in the array of debaters
+  speakerKey: Number 			//this is a random key to ensure validity of speaker
+
 });
 
 // Export the Mongoose model
