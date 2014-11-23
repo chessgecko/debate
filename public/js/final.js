@@ -61,11 +61,12 @@ socket.on("thinking time", function(msg){
 
 socket.on("send sound", function(msg){
 
-    if(!shouldPlay){
-        setTimeout(blobPlayTimerF, 50);
-        shouldPlay = true;
+    if(shouldRecord){
+        return;
+        //shouldPlay = true;
     }
-
+    shouldPlay = true;
+    setTimeout(blobPlayTimerF, 50)
     var ob = JSON.parse(msg);//new Blob ( [blob], { type : 'audio/wav' } );
     lc = JSON.parse(ob["L"]);
     rc = JSON.parse(ob["R"]);
@@ -79,9 +80,11 @@ socket.on("send sound", function(msg){
             leftchannel[i][j] = lc[i][""+j];
             rightchannel[i][j] = rc[i][""+j];
         };
-    };
+    }
+    var blob = createBlob();
+    console.log(blob.length + " long");
     var mySound = soundManager.createSound({
-        url: (window.URL || window.webkitURL).createObjectURL(createBlob()),
+        url: (window.URL || window.webkitURL).createObjectURL(blob),
         onfinish: function(){
             if(sounds.length > 0){
                 playBlob();
@@ -91,8 +94,8 @@ socket.on("send sound", function(msg){
             }
         }
     });
-
     sounds.push(mySound);
+    console.log("end of send sound");
 })
 
 socket.on("talking time", function(msg) {
@@ -115,8 +118,10 @@ socket.on('sound blob', function(msg){
             rightchannel[i][j] = rc[i][""+j];
         };
     };
+    var blob = createBlob();
+    var murl = (window.URL || window.webkitURL).createObjectURL(blob);
     var mySound = soundManager.createSound({
-        url: (window.URL || window.webkitURL).createObjectURL(createBlob()),
+        url: murl,
         onfinish: function(){
             if(sounds.length > 1){
                 playBlob();
@@ -204,8 +209,12 @@ function createBlob(){
         var leftBuffer = mergeBuffers ( leftchannel, recordingLength );
         var rightBuffer = mergeBuffers ( rightchannel, recordingLength );
         // we interleave both channels together
-
+        console.log("leftchannel");
+        console.log(leftchannel);
+        console.log("leftBuffer");
+        console.log(leftBuffer);
         leftchannel.length = rightchannel.length = 0;
+
         recordingLength = 0;
 
         var interleaved = interleave ( leftBuffer, rightBuffer );
@@ -243,6 +252,7 @@ function createBlob(){
         
         // our final binary blob
         var blob = new Blob ( [ view ], { type : 'audio/wav' } );
+        console.log(blob);
         return blob;
     }
 
@@ -284,6 +294,7 @@ function writeUTFBytes(view, offset, string){
     }
 }
 function blobPlayTimerF(){
+    console.log("in blobPlayTimerF");
     if(shouldPlay){
         if(sounds.length > 0){
             playBlob();
