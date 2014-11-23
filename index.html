@@ -1,6 +1,378 @@
+<head>
+
+		<meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Custom Drop-Down List Styling</title>
+        <meta name="description" content="Custom Drop-Down List Styling with CSS3" />
+        <meta name="author" content="Codrops" />
+        <link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/style.css" />
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css' />
+		<script type="text/javascript" src="http://tympanus.net/Tutorials/CustomDropDownListStyling/js/modernizr.custom.79639.js"></script> 
+		<noscript><link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/noJS.css" /></noscript>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-7243260-2']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+
+
+
+
+<style> 
+@font-face {
+   font-family: myFont;
+   src: url(/fonts/basictitlefont.ttf);
+}
+
+div.title {
+   font-family: myFont;
+   vertical-align: middle;
+   text-align: center;
+   font-size: 350%;
+   color: #838383;
+}
+
+div.subtitle {
+   font-family: myFont;
+   vertical-align: middle;
+   text-align: center;
+   font-size: 175%;
+   color: #838383;
+}
+
+
+button.StartDebate {
+   height: 45px;
+   border-color: #529ECC;
+   background: none repeat scroll 0% 0% #529ECC;
+   font-size: 16px;
+   width: 100%;
+   margin: 12px 0px 0px;
+   padding: 0px 10px;
+   padding-top: 0px;
+   padding-right-value: 10px;
+   padding-bottom: 0px;
+   padding-left-value: 10px;
+   padding-left-ltr-source: physical;
+   padding-left-rtl-source: physical;
+   padding-right-ltr-source: physical;
+   padding-right-rtl-source: physical;
+   font-size: 20px;
+   line-height: 28px;
+   color: #FFF;
+   font-weight: bold;
+   border-width: 1px;
+   border-style: solid;
+}
+
+
+button.JoinDebate {
+   height: 45px;
+   border-color: #76D847;
+   background: none repeat scroll 0% 0% #76D847;
+   font-size: 16px;
+   width: 100%;
+   margin: 1px 0px 0px;
+   padding: 0px 10px;
+   padding-top: 0px;
+   padding-right-value: 10px;
+   padding-bottom: 0px;
+   padding-left-value: 10px;
+   padding-left-ltr-source: physical;
+   padding-left-rtl-source: physical;
+   padding-right-ltr-source: physical;
+   padding-right-rtl-source: physical;
+   font-size: 20px;
+   line-height: 28px;
+   color: #FFF;
+   font-weight: bold;
+   border-width: 1px;
+   border-style: solid;
+}
+
+button.ViewDebate {
+   height: 45px;
+   border-color: #D6D946;
+   background: #D6D946;
+   font-size: 16px;
+   width: 100%;
+   margin: 1px 0px 0px;
+   padding: 0px 10px;
+   padding-top: 0px;
+   padding-right-value: 10px;
+   padding-bottom: 0px;
+   padding-left-value: 10px;
+   padding-left-ltr-source: physical;
+   padding-left-rtl-source: physical;
+   padding-right-ltr-source: physical;
+   padding-right-rtl-source: physical;
+   font-size: 20px;
+   line-height: 28px;
+   color: #FFF;
+   font-weight: bold;
+   border-width: 1px;
+   border-style: solid;
+}
+
+
+</style>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+	var selected = "#Parlimentary";
+	var privacy = "Public";
+	var political = "Yes";
+	var position = "Pro";
+	function changeColor(box){
+		if(box==1){
+			document.getElementById("StartDeb").style.background = "#89BDDC";
+		}else if(box ==2){
+			document.getElementById("JoinDeb").style.background = "#ADE891";
+		}else if(box == 3){
+			document.getElementById("ViewDeb").style.background = "#EAECA4";
+		}
+	}
+	function restore(box){
+		if(box==1){
+			document.getElementById("StartDeb").style.background = "#529ECC";
+		}else if(box ==2){
+			document.getElementById("JoinDeb").style.background = "#76D847";
+		}else if(box == 3){
+			document.getElementById("ViewDeb").style.background = "#D6D946";
+		}
+	}
+	function setType(type){
+		if(type === "Parlimentary"){
+			//alert("Parliment");
+			$("#Mode").html("Parlimentary");
+			$(selected).css('display', 'block');
+			$("#Parlimentary").css('display', 'none');
+			selected = "#Parlimentary";
+		}else if(type === "Ethics"){
+			//alert("Ethics");
+			$("#Mode").html("Ethical Delemma");
+			$(selected).css('display', 'block');
+			$("#Ethics").css('display', 'none');
+			selected = "#Ethics";
+		}else if(type === "One"){
+			//alert("One");
+			$("#Mode").html("One Vs One");
+			$(selected).css('display', 'block');
+			$("#OneVOne").css('display', 'none');
+			selected = "#OneVOne";
+		}else if(type === "Presidential"){
+			$("#Mode").html("Presidential");
+			$(selected).css('display', 'block');
+			$("#Presidential").css('display', 'none');
+			selected = "#Presidential";
+			///alert("president");
+		}
+	}
+
+	function setPrivacy(){
+		if(privacy === "Public"){
+			privacy = "Private";
+		}else{
+			privacy = "Public";
+		}
+		$("#Privacy").html(privacy);
+	}
+
+	function setPolitical(){
+		if(political === "Yes"){
+			political = "No";
+		}else{
+			political = "Yes";
+		}
+		$("#Political").html(political);
+	}
+
+	function setPosition(){
+		if(position === "Pro"){
+			position = "Con";
+		}else{
+			position = "Pro";
+		}
+		$("#Position").html(position);
+	}
+
+</script>
+
+
+</head>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
 </script>
 
-hello
+<body>
+<br><br>
+
+	<div id="Title" class="title">
+		Debatonator V1.0
+	</div>
+	<button id="StartDeb" class = "StartDebate" onmouseover="changeColor(1)" onmouseout="restore(1)">
+		Start A Debate
+	</button>
+	<button id="JoinDeb" class = "JoinDebate"  onmouseover="changeColor(2)" onmouseout="restore(2)">
+		Join A Debate
+	</button>
+	<button id="ViewDeb" class = "ViewDebate"  onmouseover="changeColor(3)" onmouseout="restore(3)">
+		View A Debate
+	</button>
+	<div id="startForum"></div>
+
+	<div id="cloak" style="visibility:hidden">
+		<div class='title'> Starting a Debate </div>
+		<div align="center">
+		<table border="0">
+			<td valign="center">
+			<br><br><br>
+			<div class='subtitle'>Type:</div>
+			</td>
+			<td valign="center">
+				<section class='main' style="z-index:10">
+					<div class='wrapper-demo'>
+						<div id='dd' class='wrapper-dropdown-5' tabindex='1'><p id="Mode">Parlimentary</p><ul class='dropdown'>
+		<li id="Parlimentary" style="display:none"><a onclick="setType('Parlimentary')">Parlimentary</a></li>
+		<li id="Ethics" style="display:block"><a onclick="setType('Ethics')">Ethical Delemma</a></li>
+		<li id="OneVOne" style="display:block"><a onclick="setType('One')">One vs One</a></li>
+		<li id="Presidential" style="display:block"><a onclick="setType('Presidential')">Presidential</a></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				</td><tr>
+				<td>
+					<br><br><br>
+					<div class='subtitle'>Privacy:</div>
+
+				</td>
+				<td>
+					
+					<section class='main'>
+					<div class='wrapper-demo'>
+						<div id='dd2' class='wrapper-dropdown-5' tabindex='1' onclick="setPrivacy()"><p id="Privacy">Public</p>
+						</div>
+					</div>
+				</section>
+
+				</td><tr>
+				<td>
+					<br><br><br>
+					<div class='subtitle'>Is Political?:</div></td>
+				<td>
+					
+					<section class='main'>
+					<div class='wrapper-demo'>
+						<div id='dd3' class='wrapper-dropdown-5' tabindex='1' onclick="setPolitical()"><p id="Political">Yes</p>
+						</div>
+					</div>
+				</section>
+
+
+				</td><tr>
+				<td>
+					<br><br><br>
+					<div class='subtitle'>Seriousness:</div></td>
+				</td>
+
+				<td>
+					<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="range" name="points" id="points" value="2" min="0" max="4">
+				</td>
+				<tr>
+				<td>
+					<br><br><br>
+					<div class='subtitle'>Topic:</div></td>
+				</td>
+				<td>
+					<br><br><br>
+					 <textarea class="form-control" rows="5" cols="40" id="comment"></textarea>
+
+				</td>
+				<tr>
+				<td>
+					<br><br><br>
+					<div class='subtitle'>Position:</div></td>
+				</td>
+				<td>
+					
+
+					<section class='main'>
+					<div class='wrapper-demo'>
+						<div id='dd4' class='wrapper-dropdown-5' tabindex='1' onclick="setPosition()"><p id="Position">Pro</p>
+						</div>
+					</div>
+					</section>
+
+
+				</td>
+				</table></div>
+
+				<button id="StartDeb" class = "StartDebate" onmouseover="changeColor(1)" onmouseout="restore(1)"> Make Debate Room </button><br>
+	</div>
+
+	<script type="text/javascript">
+	$('body').css('background', '#e6e6e6');
+	$( "#StartDeb" ).click(function() {
+		$( "#StartDeb" ).fadeOut( "fast" );
+		$( "#JoinDeb" ).fadeOut( "fast" );
+		$( "#ViewDeb" ).fadeOut( "fast" );
+
+
+
+
+
+		$( "#Title" ).fadeTo( "slow" , 0, function() {
+			$("#cloak").css('visibility', 'visible');
+			$("#startForm").fadeIn("fast");
+		});
+	});
+	</script>
+
+			
+		</div>
+		<!-- jQuery if needed -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});	
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-5').removeClass('active');
+				});
+
+			});
+
+		</script>
+		<script src="http://tympanus.net/codrops/adpacks/demoad.js"></script>
+
+</body>
