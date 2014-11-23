@@ -182,7 +182,7 @@ function success(e){
         leftchannel.push (new Float32Array (left));
         rightchannel.push (new Float32Array (right));
         recordingLength += bufferSize;
-        console.log('recording');
+        //console.log('recording');
     }
 
     // we connect the recorder
@@ -192,9 +192,15 @@ function success(e){
 
 function blobCreateTimerF(){
     if(shouldPlay){
-        var blob = createBlob();
-        console.log(blob);
-        socket.emit('sound blob', blob);
-        setTimeout(blobCreateTimerF, 500);
+        var lc = "";
+        for(var i = 0; i< leftchannel.length; i++){
+            lc
+        }
+        var ob = {"L": JSON.stringify(leftchannel), "R": JSON.stringify(rightchannel), "rlen":""+recordingLength}
+        leftchannel.length = rightchannel.length = 0;
+        recordingLength = 0;
+        //console.log(JSON.stringify(blob));
+        socket.emit('sound blob', JSON.stringify(ob));
+        setTimeout(blobCreateTimerF, 1000);
     }
 }
