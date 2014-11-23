@@ -37,12 +37,12 @@ var router = express.Router();
 //   .post(authController.isAuthenticated, debateController.makeDebate);
 
 router.route('/debates')
-  .get(authController.isAuthenticated, debateController.getDebates);
+  .get(debateController.getDebates);
 
 // Create endpoint handlers for /users
-router.route('/users')
-  .post(userController.postUsers)
-  .get(authController.isAuthenticated, userController.getUsers);
+// router.route('/users')
+//   .post(userController.postUsers)
+//   .get(authController.isAuthenticated, userController.getUsers);
 
 
 app.get('/', function(req, res){
