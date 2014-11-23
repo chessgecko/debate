@@ -48,37 +48,61 @@ io.on('connection', function(socket){
 				for(var i = 0; i<debate.debaterSockets.length; i++){
 					debate.debaterSockets[i].emit("debate starting", i);
 				}
+				debate.state = 1;
+				debate.markModified("state");
+				debate.save();
+				startDebate(debate);
 			}
 		});
-	});
+});
 
-	socket.on('createDebate', function(msg){
+socket.on('createDebate', function(msg){
 
-
-		var debate = new Debate();
-		debate.topic = msg.topic;
-		debate.political = msg.political;
-		debate.type = msg.type;
-		debate.topicPre = msg.topicPre;
-		debate.sidesPre = msg.sidesPre;
-		debate.openPositions = msg.openPositions;
-		debate.room = "d" + debate._id;
-		debate.serious = msg.serious;
-		debate.state = 0;
-		debate.debaters = [msg.username];
-		debate.debaterSockets = [socket];
-		debate.debaterLimit = 2;
-		debate.observers = [];
-		debate.observerSockets = [];
-		debate.save(function(err){
-			if(err)
-				res.send(err);
+	var debate = new Debate();
+	debate.topic = msg.topic;
+	debate.political = msg.political;
+	debate.type = msg.type;
+	debate.topicPre = msg.topicPre;
+	debate.sidesPre = msg.sidesPre;
+	debate.openPositions = msg.openPositions;
+	debate.room = "d" + debate._id;
+	debate.serious = msg.serious;
+	debate.state = 0;
+	debate.debaters = [msg.username];
+	debate.debaterSockets = [socket];
+	debate.debaterLimit = 2;
+	debate.observers = [];
+	debate.observerSockets = [];
+	debate.speakerNum = 0;
+	debate.speakerKey = 0;
+	debate.save(function(err){
+		if(err)
+			res.send(err);
 		socket.join(debate.room);
 		socket.emit("created debate", {debaters: debate.debaters});
-		});
 	});
-
+});
 
 });
+
+var startDebate = function(debate){
+	io.sockets.in(debate.room).emit("thinking time", 10000);
+	setTimeout(startTalking(debate), 10000);
+}
+
+var startTalking = function(debate){
+	if(debate.speakerNum < debate.maxNum){
+		io.sockets.in(debate.room).emit("talking time", 15000);
+		debate.speakerKey = Math.floor((Math.random() * 1000000) + 1); 
+		debate.speaker =debate.debaters[debate.speakerNum];
+		debate.markModified('speaker');
+		debate.markModified('speakerKey');
+
+		debate.debaterSockets[debate.speakerNum].emit("your turn to speak", {key:debate.speakerKey});
+
+		debate.save();
+
+	}
+}
 
 
