@@ -49,6 +49,12 @@ div.subtitle {
    color: #838383;
 }
 
+div.back_btn {
+   font-size: 140%;
+   color: #838383;
+}
+
+
 
 button.StartDebate {
    height: 45px;
@@ -127,6 +133,11 @@ button.ViewDebate {
 table.debates_table {
     border-collapse: collapse;
 
+}
+
+
+table.debates_table:hover {
+ cursor:pointer;
 }
 
 td.debates_td, th.debates_th {
@@ -279,19 +290,117 @@ p.debates_p{
 	});
 
   }
+  function debate(index){
+  	alert(index);
+  }
+
+
+  function displayMatch2(){
+  	var html = "";
+  	var debates = 0;
+  	$.getJSON("/debate/debates", function(data) {
+  		for(var i=0; i<data.length;i++){
+  			if(data[i].state==1){
+  				debates++;
+	  			var pol = (data[i].political) ? "Political" : "Unpolitical";
+	  			var serious = "Unserious";
+	  			var pos = "Random";
+	  			if(data[i].openPositions==="Pro"){
+	  				pos = "Con";
+	  			}else if(data[i].openPositions==="Con"){
+	  				pos = "Pro";
+	  			}
+				switch(data[i].serious) {
+	    			case 1:
+	       				 serious = "Mildy Serious";
+	       				 break;
+	       			case 2:
+	       				 serious = "Fairly Serious";
+	       				 break;
+	    			case 3:
+	       				 serious = "Quite Serious";
+	       				 break;
+	       			case 4:
+	       				 serious = "Serious";
+	       				 break;
+				} 
+
+	  			html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='20%'><p class='debates_p'> <b>Opponents:</b> "+data[i].debaters[0]+" vs "+data[i].debaters[1]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+	  		}
+
+  		}
+  		if(debates==0){
+  			html = "<br>None";
+  		}
+
+  		$("#occuring_debates").html(html);
+
+	});
+  	
+  }
+
+
 
   function displayMatch(){
-  	alert("hehehe");
+  	var html = "";
+  	var debates = 0;
+  	$.getJSON("/debate/debates", function(data) {
+
+  		for(var i=0; i<data.length;i++){
+  			if(data[i].state==0){
+  				debates++;
+	  			var pol = (data[i].political) ? "Political" : "Unpolitical";
+	  			var serious = "Unserious";
+	  			var pos = "Random";
+	  			if(data[i].openPositions==="Pro"){
+	  				pos = "Con";
+	  			}else if(data[i].openPositions==="Con"){
+	  				pos = "Pro";
+	  			}
+				switch(data[i].serious) {
+	    			case 1:
+	       				 serious = "Mildy Serious";
+	       				 break;
+	       			case 2:
+	       				 serious = "Fairly Serious";
+	       				 break;
+	    			case 3:
+	       				 serious = "Quite Serious";
+	       				 break;
+	       			case 4:
+	       				 serious = "Serious";
+	       				 break;
+				} 
+
+	  			html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+"Public"+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> "+data[i].debaters[0]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+	  		}
+
+  		}
+
+  		if(debates==0){
+  			html = "<br>None";
+  		}
+
+  		$("#pending_debates").html(html);
+
+	});
+  	
   }
   function displayMatches(){
   	displayMatch();
   	setInterval(displayMatch, 3000);
+  }
+
+   function displayMatches2(){
+  	displayMatch2();
+  	setInterval(displayMatch2, 3000);
   }
 </script>
 
 
 
 <body>
+<div id="back_btn" class ="back_btn" style="display:none;"><a href="/">Back</a></div>
 <br><br>
 
 	<div id="Title" class="title">
@@ -308,22 +417,21 @@ p.debates_p{
 	</button>
 	<div id="startForum"></div>
 
+	<div id="cloak4" style="display:none">
+		<div align="center">
+				<div class='title'> Debates Occuring</div>
+				<div id="occuring_debates">
+					
+
+				</div>
+		</div>
+	</div>
+
 	<div id="cloak3" style="display:none">
 		<div align="center">
 				<div class='title'> Current Pending Debates</div>
 				<div id="pending_debates">
-					<br>
-					<table class='debates_table'bgcolor="#CECECE" width='80%' height = '5%' border='1' border-color='black'>
-					<td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> Parlimentary</p></td>
-					<td class='debates_td' width='10%'><p class='debates_p'> Private</p></td>
-					<td class='debates_td' width='10%'><p class='debates_p'> Political</p></td>
-					<td class='debates_td' width='10%'><p class='debates_p'> Serious</p></td>
-					<td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> Random </p></td>
-					<td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> Carl </p></td>
-
-					<tr>
-					<td colspan = "6" class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> This is a long winded an highly detailed topic for which I wish to debate, I hope that you respect my views which is totally correct, and that of yours which it totally wrong. Anywho this is just a small passage to give some realism, I think this is enough. Mind my extreme grammar errors bitch, cause I'm out of here. Peace</p></td>
-					</table>
+					
 
 				</div>
 		</div>
@@ -451,6 +559,7 @@ p.debates_p{
 
 		$( "#Title" ).fadeTo( "slow" , 0, function() {
 			$( "#cloak:hidden:first" ).fadeIn( "slow" );
+			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
 			//$("#cloak").css('visibility', 'visible');
 			//$("#startForm").fadeIn("fast");
 		});
@@ -463,7 +572,19 @@ p.debates_p{
 		$( "#ViewDeb" ).fadeOut( "fast" );
 		$( "#Title" ).fadeTo( "slow" , 0, function() {
 			$( "#cloak3:hidden:first" ).fadeIn( "slow" );
+			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
 			displayMatches();
+		});
+	});
+
+	$( "#ViewDeb" ).click(function() {
+		$( "#StartDeb" ).fadeOut( "fast" );
+		$( "#JoinDeb" ).fadeOut( "fast" );
+		$( "#ViewDeb" ).fadeOut( "fast" );
+		$( "#Title" ).fadeTo( "slow" , 0, function() {
+			$( "#cloak4:hidden:first" ).fadeIn( "slow" );
+			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
+			displayMatches2();
 		});
 	});
 
