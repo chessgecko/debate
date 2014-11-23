@@ -14,13 +14,18 @@ var authController = require('./controllers/auth');
 mongoose.connect('mongodb://localhost:27017/debate');
 // app.engine('html', require('ejs').renderfile);
 
-io.on('connection', function(socket){
+// io.on('connection', function(socket){
 
-  socket.on('sound blob', function(msg){
-    io.emit('sound blob', msg);
-  });
+//   console.log('connected app.js');
 
-});
+//   socket.on('sound blob', function(msg){
+//     io.emit('sound blob', msg);
+//   });
+// });
+
+io.on('connection', debateController.respondConnect);
+
+// io.on('disconnect', debateController.respondDisconnect);
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
@@ -37,7 +42,16 @@ var router = express.Router();
 //   .post(authController.isAuthenticated, debateController.makeDebate);
 
 router.route('/debates')
-  .get(debateController.getDebates);
+.get(debateController.getDebates);
+
+app.get('/create', function(req, res){
+  res.sendFile(__dirname + '/views/debatepage.html');
+  //console.log("present");
+});
+
+app.get('/join', function(req, res){
+  res.sendFile(__dirname + '/views/join.html');
+})
 
 // Create endpoint handlers for /users
 // router.route('/users')

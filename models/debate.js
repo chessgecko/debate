@@ -15,12 +15,12 @@ var DebateSchema   = new mongoose.Schema({
   state: Number, 			//0 not started, 1 in progress, 2 finished
   turn: Number,				//the turn of the debate
   debaterLimit: Number, 	//should be determined from the type
-  // userId: String,		 	//id of the person who created the debate
-  debaters: Array, 			//usernames of the people debating, including the creator
-  debaterSockets: Array,	//sockets of debaters
-  observers: Array, 		//ids of people observing the debate
-  observerSockets: Array,	//sockets of observers
-  speaker: String, 			//the username of the current person speaking
+  //userId: String,		 	//id of the person who created the debate
+  debaters: [String], 			//usernames of the people debating, including the creator
+  debaterSockets: [String],	//sockets of debaters
+  observers: [String], 		//ids of people observing the debate
+  observerSockets: [String],	//sockets of observers
+  speaker: [String], 			//the username of the current person speaking
   speakerNum: Number, 			//the number of the current speaker in the array of debaters
   speakerKey: Number 			//this is a random key to ensure validity of speaker
 

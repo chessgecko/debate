@@ -1,31 +1,35 @@
 var express = require('express');
-var debate = require('../models/debate');
+var Debate = require('../models/debate');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var clients = {};
 
 exports.getDebates = function(req, res){
-	debate.find({}, function(err, debates){
+	Debate.find({}, function(err, debates){
+		//console.log('here');
 		if(err)
 			res.send(err);
 		res.json(debates);
 	});
 }
 
-io.on('connection', function(socket){
+exports.respondConnect = function(socket){
+	console.log('connected');
 	socket.on('joinDebate', function(msg){
-		debate.findOne({room: msg.room}, function(err, debate){
+		console.log('joinDebate');
+		Debate.findOne({room: msg.room}, function(err, debate){
 			if(err){
 				console.log(err);
 				return;
 			}
-			if(debate.debaters.indexof(msg.username) != -1 || debate.observers.indexof(msg.username) != -1){
+			if(debate.debaters.indexOf(msg.username) != -1 || debate.observers.indexOf(msg.username) != -1){
 				socket.emit("bad username", msg.username);
 				return;
 			}
 			if(debate.debaterLimit > debate.debaters.length){
 				debate.debaters.push(msg.username);
-				debate.debaterSockets.push(socket);
+				debate.debaterSockets.push(socket.id);
 				debate.markModified('debaters');
 				debate.markModified('debaterSockets');
 				debate.save();
@@ -34,7 +38,7 @@ io.on('connection', function(socket){
 				socket.emit("joined room debater", {maxNum: debate.openPositions, users: debate.debaters, observers: debate.observers});
 			} else if(debate.debaterLimit >= debate.debaters.length){
 				debate.observers.push(msg.username);
-				debate.observerSockets.push(socket);
+				debate.observerSockets.push(socket.id);
 
 				debate.markModified('observers');
 				debate.markModified('observerSockets');
@@ -44,9 +48,9 @@ io.on('connection', function(socket){
 				socket.broadcast.to(debate.room).emit('observer joined', {username: msg.username});
 				socket.emit("joined room observer", {maxNum: debate.openPositions, users: debate.debaters, observers: debate.observers});
 			}
-			if(debate.debaterLimit == debate.debaters.length){
+			if(debate.debaterLimit <= debate.debaters.length){
 				for(var i = 0; i<debate.debaterSockets.length; i++){
-					debate.debaterSockets[i].emit("debate starting", i);
+					io.to(debate.debaterSockets[i]).emit('debate starting', i);
 				}
 				debate.state = 1;
 				debate.markModified("state");
@@ -57,47 +61,115 @@ io.on('connection', function(socket){
 });
 
 socket.on('createDebate', function(msg){
+	console.log('createDebate');
+	//var debate = new Debate();
+	var myDeb = {
+		topic: msg.topic,
+		political: msg.political,
+		type: msg.type,
+		topicPre: msg.topicPre,
+		sidesPre: msg.sidesPre,
+		openPositions: msg.openPositions,
+		serious: msg.serious,
+		state: 0,
+		debaters: [msg.username],
+		debaterSockets: [socket.id],
+		room: "d" + socket.id,
+		debaterLimit: 2,
+		observers: [],
+		observerSockets: [],
+		speakerNum: 0,
+		speakerKey: 0
+	}
+	Debate.collection.insert([myDeb], {}, function(err, docs){
+		if(err){
+			console.log(err);
+		} else{
+			console.log(docs);
+			socket.join("d" + docs[0]._id);
+			socket.emit("created debate", {debaters: [msg.username]});
+		}
+	});
+	// debate.topic = msg.topic;
+	// debate.political = msg.political;
+	// debate.type = msg.type;
+	// debate.topicPre = msg.topicPre;
+	// debate.sidesPre = msg.sidesPre;
+	// debate.openPositions = msg.openPositions;
+	// debate.room = "d" + debate._id;
+	// debate.serious = msg.serious;
+	// debate.state = 0;
+	// debate.debaters = [msg.username];
+	// debate.debaterSockets = [socket];
+	// debate.debaterLimit = 2;
+	// debate.observers = [];
+	// debate.observerSockets = [];
+	// debate.speakerNum = 0;
+	// debate.speakerKey = 0;
 
-	var debate = new Debate();
-	debate.topic = msg.topic;
-	debate.political = msg.political;
-	debate.type = msg.type;
-	debate.topicPre = msg.topicPre;
-	debate.sidesPre = msg.sidesPre;
-	debate.openPositions = msg.openPositions;
-	debate.room = "d" + debate._id;
-	debate.serious = msg.serious;
-	debate.state = 0;
-	debate.debaters = [msg.username];
-	debate.debaterSockets = [socket];
-	debate.debaterLimit = 2;
-	debate.observers = [];
-	debate.observerSockets = [];
-	debate.speakerNum = 0;
-	debate.speakerKey = 0;
-	debate.save(function(err){
-		if(err)
-			res.send(err);
-		socket.join(debate.room);
-		socket.emit("created debate", {debaters: debate.debaters});
+	// debate.save(function(err){
+	// 	if(err){
+	// 		console.log("err");
+	// 		console.log(err);
+	// 	}
+	// 	//console.log("err");
+	// 	socket.join(debate.room);
+	// 	socket.emit("created debate", {debaters: debate.debaters});
+	// });
+
+});
+
+socket.on("send sound", function(msg){
+	Debate.findOne({room:msg.room}, function(err, debate){
+		if(err){
+			console.log(err);
+			return;
+		}
+		if(debate.speakerKey != msg.speakerKey){
+			console.log("invalid speaker key");
+			return;
+		}
+		debate.debaterSockets[debate.speakerNum].broadcast.to(msg.room).emit("send sound", msg.sound);
+	})
+});
+
+socket.on("disconnect", function(){
+	console.log("disconnect");
+	Debate.find({}, function(err, debates){
+		if(err){
+			console.log(err);
+		}
+		for(var i = 0; i<debates.length; i++){
+			console.log("delete: " + i);
+			if(debates[i].debaterSockets.length == 1 && debates[i].debaterSockets[0] == socket.id){
+				Debate.remove({debaterSockets:socket.id}, function(err){
+					if(err){
+						console.log("err remove");
+						console.log(err);
+					}
+				});
+			} else {
+				for(var j = 0; j<debates[i].debaterSockets.length; j++){
+					if(debates[i].debaterSockets[j] == socket.id) {
+						var ind = debates[i].debaterSockets.indexOf(socket.id);
+						debates[i].debaterSockets.splice(ind, 1);
+						debates[i].debaters.splice(ind, 1);
+						debates[i].markModified('debaterSockets');
+						debates[i].markModified('debaters');
+
+						debates[i].save();
+					}
+				}
+			}
+		}
 	});
 });
 
-	socket.on("send sound", function(msg){
-		debate.findOne({room:msg.room}, function(err, debate){
-			if(err){
-				console.log(err);
-				return;
-			}
-			if(debate.speakerKey != msg.speakerKey){
-				console.log("invalid speaker key");
-				return;
-			}
-			debate.debaterSockets[debate.speakerNum].broadcast.to(msg.room).emit("send sound", msg.sound);
-		})
-	});
+}
 
-});
+exports.respondDisconnect = function(socket){
+	
+}
 
 var startDebate = function(debate){
 	io.sockets.in(debate.room).emit("thinking time", {time:10000});
@@ -112,7 +184,7 @@ var startTalking = function(debate){
 		debate.markModified('speaker');
 		debate.markModified('speakerKey');
 		debate.save();
-		debate.debaterSockets[debate.speakerNum].emit("your turn to speak", {key:debate.speakerKey});
+		io.to(debate.debaterSockets[debate.speakerNum]).emit("your turn to speak", {key:debate.speakerKey, room:debate.room});
 		debate.speakerNum++;
 		debate.markModified('speakerNum');
 		debate.save();
