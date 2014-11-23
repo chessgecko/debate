@@ -291,15 +291,9 @@
   	});
 
   }
-  function debate(index){
-  	var daroom = "";
-  	console.log(index);
-  	daroom = index.room;
-  	console.log("room: " + daroom);
-
-
-  	socket.emit("joinDebate", {"room":daroom, "username": "hoodlum2"});
-  	alert('hello world');
+  function debate(room){
+  	socket.emit("joinDebate", {"room":room, "username": "hoodlum2"});
+  	alert(room);
         // console.log("sockid: " + socket.id);
 	// alert(index);
 }
@@ -337,7 +331,7 @@ function displayMatch2(){
 				console.log("data[i]");
 				console.log(data[i]);
 
-				html+="<br><table href='#' onclick='debate("+data[i]+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='20%'><p class='debates_p'> <b>Opponents:</b> "+data[i].debaters[0]+" vs "+data[i].debaters[1]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+				html+="<br><table href='#' onclick='debate("+data[i].room+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='20%'><p class='debates_p'> <b>Opponents:</b> "+data[i].debaters[0]+" vs "+data[i].debaters[1]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
 			}
 
 		}
@@ -383,8 +377,10 @@ function displayMatch(){
 					serious = "Serious";
 					break;
 				} 
-
-				html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+"Public"+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> "+data[i].debaters[0]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+				console.log(data[i]);
+				var room = JSON.stringify(data[i].room);
+				//alert(room);
+				html+="<br><table href='#' onclick='debate("+room+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+"Public"+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> "+data[i].debaters[0]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
 			}
 
 		}
