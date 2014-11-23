@@ -79,6 +79,6 @@ app.get('/send', function(req, res){
 app.use('/debate', router);
 
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(80, function(){
+  console.log('listening on *:80');
 });

@@ -300,7 +300,7 @@ function blobPlayTimerF(){
             playBlob();
         } else{
             console.log('delayed')
-            setTimeout(blobPlayTimerF, 100);
+            setTimeout(blobPlayTimerF, 10);
         }
     }
 }
