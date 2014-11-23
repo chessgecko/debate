@@ -49,8 +49,8 @@ window.onkeydown = function(e){
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
         outputElement.innerHTML = 'Recording now...';
-        setTimeout(blobCreateTimerF, 0);
-        setTimeout(blobPlayTimerF, 1000);
+        setTimeout(blobCreateTimerF, 100);
+        // setTimeout(blobPlayTimerF, 1000);
 
     // if S is pressed, we stop the recording and package the WAV file
 
@@ -193,14 +193,11 @@ function success(e){
 function blobCreateTimerF(){
     if(shouldPlay){
         var lc = "";
-        // for(var i = 0; i< leftchannel.length; i++){
-        //     lc
-        // }
         var ob = {"L": JSON.stringify(leftchannel), "R": JSON.stringify(rightchannel), "rlen":""+recordingLength}
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
         //console.log(JSON.stringify(blob));
         socket.emit('sound blob', JSON.stringify(ob));
-        setTimeout(blobCreateTimerF, 1000);
+        setTimeout(blobCreateTimerF, 2000);
     }
 }

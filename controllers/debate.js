@@ -29,7 +29,6 @@ exports.respondConnect = function(socket){
 				console.log(err);
 				return;
 			}
-			log(debate);
 			if(debate.debaters.indexOf(msg.username) != -1 || debate.observers.indexOf(msg.username) != -1){
 				socket.emit("bad username", msg.username);
 				return;
@@ -137,6 +136,10 @@ socket.on('createDebate', function(msg){
 
 });
 
+  socket.on('sound blob', function(msg){
+    io.emit('sound blob', msg);
+  });
+
 socket.on("send sound", function(msg){
 	console.log('sound incoming');
 	Debate.findOne({room:msg.room}, function(err, debate){
@@ -145,9 +148,6 @@ socket.on("send sound", function(msg){
 			return;
 		}
 		console.log("debate.speakerKey: " + debate.speakerKey);
-
-
-
 		console.log(debate.speakerNum);
 		socket.broadcast.to(msg.room).emit("send sound", msg.sound);
 	})
