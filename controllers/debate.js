@@ -2,8 +2,14 @@ var express = require('express');
 var Debate = require('../models/debate');
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var io = require('socket.io')(http);
 var clients = {};
+var io;
+
+exports.setio = function(theIO){
+	io = theIO;
+}
+
 
 exports.getDebates = function(req, res){
 	Debate.find({}, function(err, debates){
@@ -27,16 +33,21 @@ exports.respondConnect = function(socket){
 				socket.emit("bad username", msg.username);
 				return;
 			}
+
 			if(debate.debaterLimit > debate.debaters.length){
 				debate.debaters.push(msg.username);
 				debate.debaterSockets.push(socket.id);
 				debate.markModified('debaters');
 				debate.markModified('debaterSockets');
 				debate.save();
+				console.log("debate.room: " + debate.room.length);
 				socket.join(debate.room);
-				socket.broadcast.to(debate.room).emit('observer joined', {username: msg.username});
+				socket.broadcast.to(debate.room).emit('debater joined', {username: msg.username});
+				// socket.br(debate.room).emit("joined room debater", {time:10000});
+
 				socket.emit("joined room debater", {maxNum: debate.openPositions, users: debate.debaters, observers: debate.observers});
-			} else if(debate.debaterLimit >= debate.debaters.length){
+				
+			} else if(debate.debaterLimit <= debate.debaters.length){
 				debate.observers.push(msg.username);
 				debate.observerSockets.push(socket.id);
 
@@ -48,14 +59,19 @@ exports.respondConnect = function(socket){
 				socket.broadcast.to(debate.room).emit('observer joined', {username: msg.username});
 				socket.emit("joined room observer", {maxNum: debate.openPositions, users: debate.debaters, observers: debate.observers});
 			}
+
 			if(debate.debaterLimit <= debate.debaters.length){
+				console.log("starting");
 				for(var i = 0; i<debate.debaterSockets.length; i++){
+					console.log("i: " + i + " sockid: " + socket.id);
 					io.to(debate.debaterSockets[i]).emit('debate starting', i);
 				}
+
 				debate.state = 1;
 				debate.markModified("state");
 				debate.save();
 				startDebate(debate);
+
 			}
 		});
 });
@@ -86,7 +102,8 @@ socket.on('createDebate', function(msg){
 			console.log(err);
 		} else{
 			console.log(docs);
-			socket.join("d" + docs[0]._id);
+			socket.join(docs[0].room);
+			console.log('room: ' + docs[0].room);
 			socket.emit("created debate", {debaters: [msg.username]});
 		}
 	});
@@ -120,16 +137,18 @@ socket.on('createDebate', function(msg){
 });
 
 socket.on("send sound", function(msg){
+	console.log('sound incoming');
 	Debate.findOne({room:msg.room}, function(err, debate){
 		if(err){
 			console.log(err);
 			return;
 		}
-		if(debate.speakerKey != msg.speakerKey){
-			console.log("invalid speaker key");
-			return;
-		}
-		debate.debaterSockets[debate.speakerNum].broadcast.to(msg.room).emit("send sound", msg.sound);
+		console.log("debate.speakerKey: " + debate.speakerKey);
+
+
+
+		console.log(debate.speakerNum);
+		socket.broadcast.to(msg.room).emit("send sound", msg.sound);
 	})
 });
 
@@ -167,31 +186,40 @@ socket.on("disconnect", function(){
 
 }
 
-exports.respondDisconnect = function(socket){
-	
-}
-
 var startDebate = function(debate){
+	console.log("thinking");
+	console.log(debate.room);
 	io.sockets.in(debate.room).emit("thinking time", {time:10000});
-	setTimeout(startTalking(debate), 10000);
+	setTimeout(startTalking, 10000, debate);
 }
 
-var startTalking = function(debate){
-	if(debate.speakerNum < debate.maxNum){
-		io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:15000});
-		debate.speakerKey = Math.floor((Math.random() * 1000000) + 1); 
-		debate.speaker =debate.debaters[debate.speakerNum];
-		debate.markModified('speaker');
-		debate.markModified('speakerKey');
-		debate.save();
-		io.to(debate.debaterSockets[debate.speakerNum]).emit("your turn to speak", {key:debate.speakerKey, room:debate.room});
-		debate.speakerNum++;
-		debate.markModified('speakerNum');
-		debate.save();
-		setTimeout(startTalking(debate), 15000);
-	} else {
-		io.sockets.in(debate.room).emit("debate over" , {snum:debate.speakerNum, time:15000});
-	}
+var startTalking = function(thedebate){
+	console.log("speakerNum");
+	Debate.findOne({room:thedebate.room}, function(err, debate){
+		if(debate.speakerNum < debate.debaterLimit){
+			io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:15000});
+			debate.speakerKey = Math.floor((Math.random() * 1000000) + 1); 
+
+			debate.markModified('speakerKey');
+			debate.save();
+
+			debate.speaker =debate.debaters[debate.speakerNum];
+			debate.markModified('speaker');
+			debate.save();
+
+			console.log("turn to speak: " + debate.speakerNum);
+			io.to(debate.debaterSockets[debate.speakerNum]).emit("your turn to speak", {key:debate.speakerKey, room:debate.room});
+			debate.speakerNum++;
+			debate.markModified('speakerNum');
+			debate.save();
+			setTimeout(startTalking, 15000, debate);
+			console.log('afterTimeout: ' + debate.speakerNum);
+		} else {
+			console.log("over");
+			io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:15000});
+		}
+	});
+	
 }
 
 

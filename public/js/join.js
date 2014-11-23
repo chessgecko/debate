@@ -29,14 +29,21 @@ $.get("http://localhost:3000/debate/debates", function( data ) {
     if(data.length > 0){
         console.log(data);
         daroom = data[0]["room"];
-        console.log(daroom);
+        console.log("room: " + daroom);
         //var socket = io();
 
         socket.emit("joinDebate", {"room":daroom, "username": "hoodlum2"});
+        console.log("sockid: " + socket.id);
     }
 });
 
+socket.on("debate starting", function(msg){
+    console.log("debate starting");
+});
 
+socket.on("joined room debater", function(data){
+    console.log("joined debater room");
+})
 
 var fakedCreate = {
     "topic":"some topic",
@@ -62,9 +69,14 @@ soundManager.setup({
     		}
     	});
 
+socket.on("thinking time", function(msg){
+    console.log("thinking time");
+});
+
 socket.on('your turn to speak', function(msg){
+    console.log("recieved turn");
     shouldPlay = false;
-    var shouldRecord = true;
+    shouldRecord = true;
 
     recording = true;
     // reset the buffers for the new recording
@@ -73,9 +85,41 @@ socket.on('your turn to speak', function(msg){
     outputElement.innerHTML = 'Recording now...';
     setTimeout(blobCreateTimerF, 0);
     //setTimeout(blobPlayTimerF, 1000);
-    speakerKey = msg.speakerKey;
+    speakerKey = msg.key;
     room = msg.room;
 });
+
+socket.on("send sound", function(msg){
+    console.log("got sound");
+
+    var ob = JSON.parse(msg);//new Blob ( [blob], { type : 'audio/wav' } );
+    lc = JSON.parse(ob["L"]);
+    rc = JSON.parse(ob["R"]);
+    recordingLength = parseInt(ob["rlen"]);
+    leftchannel = [];
+    rightchannel = [];
+    for(var i = 0; lc[i] != null; i++){
+        leftchannel[i] = [];
+        rightchannel[i] = [];
+        for(var j = 0; lc[i][""+j] != null; j++){
+            leftchannel[i][j] = lc[i][""+j];
+            rightchannel[i][j] = rc[i][""+j];
+        };
+    };
+    var mySound = soundManager.createSound({
+        url: (window.URL || window.webkitURL).createObjectURL(createBlob()),
+        onfinish: function(){
+            if(sounds.length > 1){
+                playBlob();
+                console.log(sounds.length);
+            } else {
+                blobPlayTimerF();
+            }
+        }
+    });
+
+    sounds.push(mySound);
+})
 
 socket.on("talking time", function(msg) {
     shouldPlay = false;
@@ -173,7 +217,7 @@ function blobCreateTimerF(){
         recordingLength = 0;
         //console.log(JSON.stringify(blob));
         var send = {"speakerKey":speakerKey, "sound":JSON.stringify(ob), "room":room};
-        socket.emit('send sound', send);
+        socket.emit("send sound", send);
         setTimeout(blobCreateTimerF, 1000);
     }
 }

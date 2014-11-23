@@ -23,6 +23,8 @@ mongoose.connect('mongodb://localhost:27017/debate');
 //   });
 // });
 
+debateController.setio(io);
+
 io.on('connection', debateController.respondConnect);
 
 // io.on('disconnect', debateController.respondDisconnect);
