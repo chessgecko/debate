@@ -41,6 +41,14 @@
 			color: #838383;
 		}
 
+		div.timer {
+			font-family: myFont;
+			vertical-align: middle;
+			text-align: center;
+			font-size: 420%;
+			color: #838383;
+		}
+
 		div.subtitle {
 			font-family: myFont;
 			vertical-align: middle;
@@ -137,6 +145,10 @@
 
 
 		table.debates_table:hover {
+			cursor:pointer;
+		}
+
+		p.skip_timer:hover {
 			cursor:pointer;
 		}
 
@@ -253,6 +265,8 @@
 
 <script src="js/final.js"></script>
 <script>
+	var seconds = 60*5;
+	speaker = true;
 	// var socket = io();
 	function MakeRoom(){
 		var obj = new Object();
@@ -291,11 +305,49 @@
   	});
 
   }
+  function makeTimer(){
+  	
+  	seconds--;
+  	var minutes =  parseInt(seconds/60);
+  	var second = seconds%60;
+  	var time = ""+minutes+":"+second;
+  	if(seconds<10){
+		time = ""+minutes+":0"+second;
+  	}
+  	if(seconds<1){
+  		seconds = 300;
+  		$("#instuct").css("color","#FFFFFF");
+  		$("#timer").css("color","#FFFFFF");
+  		if(speaker){
+  			$("#instuct").html("Debate");
+  			$("body").css("background-color","#63AB62");
+
+  		}else{
+  			$("#instuct").html("Listen");
+  			$("body").css("background-color","#00688B");
+  		}
+  		speaker= !speaker;
+  	}
+  	$("#timer").html(time);
+  }
+  function skip_timer(){
+  	seconds = 3;
+  }
   function debate(room){
   	socket.emit("joinDebate", {"room":room, "username": "hoodlum2"});
-  	alert(room);
-        // console.log("sockid: " + socket.id);
-	// alert(index);
+
+	$( "#cloak3" ).fadeTo( "slow" , 0, function() {
+		$( "#cloak5:hidden:first" ).fadeIn( "slow" );
+		$( "#back_btn:hidden:first" ).fadeIn( "slow" );		
+	});
+	$( "#cloak4" ).fadeTo( "slow" , 0, function() {
+		$( "#cloak5:hidden:first" ).fadeIn( "slow" );
+		$( "#back_btn:hidden:first" ).fadeIn( "slow" );		
+	});
+
+	$( "#cloak5" ).html("<div id='instuct' class='title'> Debate Starting in: </div><div id='timer' class='timer'></div><div align='center'><a href='javascript:skip_timer();'>Skip</a></div>");
+	setInterval(makeTimer, 1000);
+
 }
 
 
@@ -425,6 +477,7 @@ function displayMatches2(){
 	</button>
 	<div id="startForum"></div>
 
+	<div id="cloak5" style="display:none">content</div>
 	<div id="cloak4" style="display:none">
 		<div align="center">
 			<div class='title'> Debates Occuring</div>
