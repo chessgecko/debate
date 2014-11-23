@@ -266,7 +266,8 @@
 <script src="js/final.js"></script>
 <script>
 	var seconds = 60*5;
-	speaker = true;
+	speaker = false;
+	var started = false;
 	// var socket = io();
 	function MakeRoom(){
 		var obj = new Object();
@@ -305,7 +306,7 @@
   	});
 
   }
-  function makeTimer(){
+  function makeTimer(room){
   	
   	seconds--;
   	var minutes =  parseInt(seconds/60);
@@ -315,16 +316,22 @@
 		time = ""+minutes+":0"+second;
   	}
   	if(seconds<1){
+  		if(!started){
+  			socket.emit("start", room);
+  		}
   		seconds = 300;
   		$("#instuct").css("color","#FFFFFF");
   		$("#timer").css("color","#FFFFFF");
   		if(speaker){
   			$("#instuct").html("Debate");
   			$("body").css("background-color","#63AB62");
+  			//I speak
+  			
 
   		}else{
   			$("#instuct").html("Listen");
   			$("body").css("background-color","#00688B");
+  			//he speak
   		}
   		speaker= !speaker;
   	}
@@ -346,7 +353,7 @@
 	});
 
 	$( "#cloak5" ).html("<div id='instuct' class='title'> Debate Starting in: </div><div id='timer' class='timer'></div><div align='center'><a href='javascript:skip_timer();'>Skip</a></div>");
-	setInterval(makeTimer, 1000);
+	setInterval(makeTimer, 1000, room);
 
 }
 
