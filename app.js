@@ -2,15 +2,16 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var i = 0;
+//var i = 0;
 
 // app.engine('html', require('ejs').renderfile);
 
 io.on('connection', function(socket){
 
   socket.on('sound blob', function(msg){
-    console.log(i);
-    i++;
+  	//console.log("msg: "+ msg);
+    //console.log(i);
+    //i++;
     io.emit('sound blob', msg);
   });
 
