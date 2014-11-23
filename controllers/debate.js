@@ -70,7 +70,7 @@ exports.respondConnect = function(socket){
 				debate.state = 1;
 				debate.markModified("state");
 				debate.save();
-				startDebate(debate);
+				//startDebate(debate);
 
 			}
 		});
@@ -151,6 +151,12 @@ socket.on("send sound", function(msg){
 		console.log(debate.speakerNum);
 		socket.broadcast.to(msg.room).emit("send sound", msg.sound);
 	})
+});
+
+socket.on('start', function(msg){
+	var ob = {room:msg};
+	startDebate(ob);
+
 });
 
 socket.on("disconnect", function(){
