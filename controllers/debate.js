@@ -189,8 +189,8 @@ socket.on("disconnect", function(){
 var startDebate = function(debate){
 	console.log("thinking");
 	console.log(debate.room);
-	io.sockets.in(debate.room).emit("thinking time", {time:10000});
-	setTimeout(startTalking, 10000, debate);
+	io.sockets.in(debate.room).emit("thinking time", {time:1000});
+	setTimeout(startTalking, 1000, debate);
 }
 
 var startTalking = function(thedebate){
@@ -212,11 +212,13 @@ var startTalking = function(thedebate){
 			debate.speakerNum++;
 			debate.markModified('speakerNum');
 			debate.save();
-			setTimeout(startTalking, 15000, debate);
+
+
+			setTimeout(startTalking, 30000, debate);
 			console.log('afterTimeout: ' + debate.speakerNum);
 		} else {
 			console.log("over");
-			io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:15000});
+			io.sockets.in(debate.room).emit("talking time" , {snum:debate.speakerNum, time:30000});
 		}
 	});
 	

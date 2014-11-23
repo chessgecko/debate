@@ -90,6 +90,11 @@ socket.on('your turn to speak', function(msg){
 });
 
 socket.on("send sound", function(msg){
+    if(!shouldPlay){
+        setTimeout(blobPlayTimerF, 50);
+        shouldPlay = true;
+
+    }
     console.log("got sound");
 
     var ob = JSON.parse(msg);//new Blob ( [blob], { type : 'audio/wav' } );
@@ -109,7 +114,7 @@ socket.on("send sound", function(msg){
     var mySound = soundManager.createSound({
         url: (window.URL || window.webkitURL).createObjectURL(createBlob()),
         onfinish: function(){
-            if(sounds.length > 1){
+            if(sounds.length > 0){
                 playBlob();
                 console.log(sounds.length);
             } else {
@@ -209,9 +214,9 @@ function success(e){
 function blobCreateTimerF(){
     if(shouldRecord){
         var lc = "";
-        for(var i = 0; i< leftchannel.length; i++){
-            lc
-        }
+        // for(var i = 0; i< leftchannel.length; i++){
+        //     lc
+        // }
         var ob = {"L": JSON.stringify(leftchannel), "R": JSON.stringify(rightchannel), "rlen":""+recordingLength}
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;

@@ -11,7 +11,7 @@ var audioContext = null;
 var context = null;
 var outputElement = document.getElementById('output');
 var outputString;
-var shouldRecord = false;
+var shouldPlay = false;
 var socket = io('localhost:3000');
 
 var blobs = [];
@@ -43,7 +43,7 @@ window.onkeydown = function(e){
 
     // if R is pressed, we start recording
     if ( e.keyCode == 82 ){
-        shouldRecord = true;
+        shouldPlay = true;
         recording = true;
         // reset the buffers for the new recording
         leftchannel.length = rightchannel.length = 0;
@@ -55,7 +55,7 @@ window.onkeydown = function(e){
     // if S is pressed, we stop the recording and package the WAV file
 
 } else if ( e.keyCode == 83 ){
-    shouldRecord = false;
+    shouldPlay = false;
         //var blob = createBlob();
         //playBlob(blob);
 
@@ -191,11 +191,11 @@ function success(e){
 }
 
 function blobCreateTimerF(){
-    if(shouldRecord){
+    if(shouldPlay){
         var lc = "";
-        for(var i = 0; i< leftchannel.length; i++){
-            lc
-        }
+        // for(var i = 0; i< leftchannel.length; i++){
+        //     lc
+        // }
         var ob = {"L": JSON.stringify(leftchannel), "R": JSON.stringify(rightchannel), "rlen":""+recordingLength}
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
