@@ -1,193 +1,193 @@
 <head>
 
-		<meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Custom Drop-Down List Styling</title>
-        <meta name="description" content="Custom Drop-Down List Styling with CSS3" />
-        <meta name="author" content="Codrops" />
-        <link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/style.css" />
-        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css' />
-		<script type="text/javascript" src="http://tympanus.net/Tutorials/CustomDropDownListStyling/js/modernizr.custom.79639.js"></script> 
-		<noscript><link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/noJS.css" /></noscript>
-		<script type="text/javascript">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<title>Custom Drop-Down List Styling</title>
+	<meta name="description" content="Custom Drop-Down List Styling with CSS3" />
+	<meta name="author" content="Codrops" />
+	<link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/style.css" />
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css' />
+	<script type="text/javascript" src="http://tympanus.net/Tutorials/CustomDropDownListStyling/js/modernizr.custom.79639.js"></script> 
+	<noscript><link rel="stylesheet" type="text/css" href="http://tympanus.net/Tutorials/CustomDropDownListStyling/css/noJS.css" /></noscript>
+	<script type="text/javascript">
 
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-7243260-2']);
-		  _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-7243260-2']);
+		_gaq.push(['_trackPageview']);
 
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 
-		</script>
-
-
-
-
-<style> 
-@font-face {
-   font-family: myFont;
-   src: url(/fonts/basictitlefont.ttf);
-}
-
-div.title {
-   font-family: myFont;
-   vertical-align: middle;
-   text-align: center;
-   font-size: 350%;
-   color: #838383;
-}
-
-div.subtitle {
-   font-family: myFont;
-   vertical-align: middle;
-   text-align: center;
-   font-size: 175%;
-   color: #838383;
-}
-
-div.back_btn {
-   font-size: 140%;
-   color: #838383;
-}
+	</script>
 
 
 
-button.StartDebate {
-   height: 45px;
-   border-color: #529ECC;
-   background: none repeat scroll 0% 0% #529ECC;
-   font-size: 16px;
-   width: 100%;
-   margin: 12px 0px 0px;
-   padding: 0px 10px;
-   padding-top: 0px;
-   padding-right-value: 10px;
-   padding-bottom: 0px;
-   padding-left-value: 10px;
-   padding-left-ltr-source: physical;
-   padding-left-rtl-source: physical;
-   padding-right-ltr-source: physical;
-   padding-right-rtl-source: physical;
-   font-size: 20px;
-   line-height: 28px;
-   color: #FFF;
-   font-weight: bold;
-   border-width: 1px;
-   border-style: solid;
-}
 
-
-button.JoinDebate {
-   height: 45px;
-   border-color: #76D847;
-   background: none repeat scroll 0% 0% #76D847;
-   font-size: 16px;
-   width: 100%;
-   margin: 1px 0px 0px;
-   padding: 0px 10px;
-   padding-top: 0px;
-   padding-right-value: 10px;
-   padding-bottom: 0px;
-   padding-left-value: 10px;
-   padding-left-ltr-source: physical;
-   padding-left-rtl-source: physical;
-   padding-right-ltr-source: physical;
-   padding-right-rtl-source: physical;
-   font-size: 20px;
-   line-height: 28px;
-   color: #FFF;
-   font-weight: bold;
-   border-width: 1px;
-   border-style: solid;
-}
-
-button.ViewDebate {
-   height: 45px;
-   border-color: #D6D946;
-   background: #D6D946;
-   font-size: 16px;
-   width: 100%;
-   margin: 1px 0px 0px;
-   padding: 0px 10px;
-   padding-top: 0px;
-   padding-right-value: 10px;
-   padding-bottom: 0px;
-   padding-left-value: 10px;
-   padding-left-ltr-source: physical;
-   padding-left-rtl-source: physical;
-   padding-right-ltr-source: physical;
-   padding-right-rtl-source: physical;
-   font-size: 20px;
-   line-height: 28px;
-   color: #FFF;
-   font-weight: bold;
-   border-width: 1px;
-   border-style: solid;
-}
-
-
-table.debates_table {
-    border-collapse: collapse;
-
-}
-
-
-table.debates_table:hover {
- cursor:pointer;
-}
-
-td.debates_td, th.debates_th {
-    border: 2px solid #A3A3A3;
-    background: #BABABA;
-    text-align:center;
-}
-
-td.debates_td2, th.debates_th2 {
-    border: 2px solid #A3A3A3;
-    
-    background: #CECECE;
-    text-align:center;
-}
-
-p.debates_p{
-	color: #454545;
-}
-
-</style>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script type="text/javascript">
-	var selected = "#Parlimentary";
-	var privacy = "Public";
-	var political = "Yes";
-	var position = "Pro";
-	function changeColor(box){
-		if(box==1){
-			document.getElementById("StartDeb").style.background = "#89BDDC";
-		}else if(box ==2){
-			document.getElementById("JoinDeb").style.background = "#ADE891";
-		}else if(box == 3){
-			document.getElementById("ViewDeb").style.background = "#EAECA4";
-		}else if(box == 4){
-			document.getElementById("StartDeb2").style.background = "#89BDDC";
+	<style> 
+		@font-face {
+			font-family: myFont;
+			src: url(/fonts/basictitlefont.ttf);
 		}
-	}
-	function restore(box){
-		if(box==1){
-			document.getElementById("StartDeb").style.background = "#529ECC";
-		}else if(box ==2){
-			document.getElementById("JoinDeb").style.background = "#76D847";
-		}else if(box == 3){
-			document.getElementById("ViewDeb").style.background = "#D6D946";
-		}else if(box == 4){
-			document.getElementById("StartDeb2").style.background = "#529ECC";
+
+		div.title {
+			font-family: myFont;
+			vertical-align: middle;
+			text-align: center;
+			font-size: 350%;
+			color: #838383;
 		}
-	}
-	function setType(type){
-		if(type === "Parlimentary"){
+
+		div.subtitle {
+			font-family: myFont;
+			vertical-align: middle;
+			text-align: center;
+			font-size: 175%;
+			color: #838383;
+		}
+
+		div.back_btn {
+			font-size: 140%;
+			color: #838383;
+		}
+
+
+
+		button.StartDebate {
+			height: 45px;
+			border-color: #529ECC;
+			background: none repeat scroll 0% 0% #529ECC;
+			font-size: 16px;
+			width: 100%;
+			margin: 12px 0px 0px;
+			padding: 0px 10px;
+			padding-top: 0px;
+			padding-right-value: 10px;
+			padding-bottom: 0px;
+			padding-left-value: 10px;
+			padding-left-ltr-source: physical;
+			padding-left-rtl-source: physical;
+			padding-right-ltr-source: physical;
+			padding-right-rtl-source: physical;
+			font-size: 20px;
+			line-height: 28px;
+			color: #FFF;
+			font-weight: bold;
+			border-width: 1px;
+			border-style: solid;
+		}
+
+
+		button.JoinDebate {
+			height: 45px;
+			border-color: #76D847;
+			background: none repeat scroll 0% 0% #76D847;
+			font-size: 16px;
+			width: 100%;
+			margin: 1px 0px 0px;
+			padding: 0px 10px;
+			padding-top: 0px;
+			padding-right-value: 10px;
+			padding-bottom: 0px;
+			padding-left-value: 10px;
+			padding-left-ltr-source: physical;
+			padding-left-rtl-source: physical;
+			padding-right-ltr-source: physical;
+			padding-right-rtl-source: physical;
+			font-size: 20px;
+			line-height: 28px;
+			color: #FFF;
+			font-weight: bold;
+			border-width: 1px;
+			border-style: solid;
+		}
+
+		button.ViewDebate {
+			height: 45px;
+			border-color: #D6D946;
+			background: #D6D946;
+			font-size: 16px;
+			width: 100%;
+			margin: 1px 0px 0px;
+			padding: 0px 10px;
+			padding-top: 0px;
+			padding-right-value: 10px;
+			padding-bottom: 0px;
+			padding-left-value: 10px;
+			padding-left-ltr-source: physical;
+			padding-left-rtl-source: physical;
+			padding-right-ltr-source: physical;
+			padding-right-rtl-source: physical;
+			font-size: 20px;
+			line-height: 28px;
+			color: #FFF;
+			font-weight: bold;
+			border-width: 1px;
+			border-style: solid;
+		}
+
+
+		table.debates_table {
+			border-collapse: collapse;
+
+		}
+
+
+		table.debates_table:hover {
+			cursor:pointer;
+		}
+
+		td.debates_td, th.debates_th {
+			border: 2px solid #A3A3A3;
+			background: #BABABA;
+			text-align:center;
+		}
+
+		td.debates_td2, th.debates_th2 {
+			border: 2px solid #A3A3A3;
+
+			background: #CECECE;
+			text-align:center;
+		}
+
+		p.debates_p{
+			color: #454545;
+		}
+
+	</style>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript">
+		var selected = "#Parlimentary";
+		var privacy = "Public";
+		var political = "Yes";
+		var position = "Pro";
+		function changeColor(box){
+			if(box==1){
+				document.getElementById("StartDeb").style.background = "#89BDDC";
+			}else if(box ==2){
+				document.getElementById("JoinDeb").style.background = "#ADE891";
+			}else if(box == 3){
+				document.getElementById("ViewDeb").style.background = "#EAECA4";
+			}else if(box == 4){
+				document.getElementById("StartDeb2").style.background = "#89BDDC";
+			}
+		}
+		function restore(box){
+			if(box==1){
+				document.getElementById("StartDeb").style.background = "#529ECC";
+			}else if(box ==2){
+				document.getElementById("JoinDeb").style.background = "#76D847";
+			}else if(box == 3){
+				document.getElementById("ViewDeb").style.background = "#D6D946";
+			}else if(box == 4){
+				document.getElementById("StartDeb2").style.background = "#529ECC";
+			}
+		}
+		function setType(type){
+			if(type === "Parlimentary"){
 			//alert("Parliment");
 			$("#Mode").html("Parlimentary");
 			$(selected).css('display', 'block');
@@ -248,160 +248,172 @@ p.debates_p{
 
 </head>
 
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<script src="js/soundmanager2.js"></script>
 
-
+<script src="js/final.js"></script>
 <script>
-  var socket = io();
-  function MakeRoom(){
-  	var obj = new Object();
-  	 obj.type = selected.substring(1,selected.length);
-  	 obj.openPositions=position;
-  	 obj.privacy = privacy;
- 	 obj.political = political;
- 	 obj.serious = $("#points").val();
- 	 obj.topic = $("#comment").val();
- 	 obj.username = $("#Name").val();
- 	 obj.topicPre = false;
- 	 obj.sidesPre = (position === "Random");
-  	 socket.emit('createDebate', obj);
+	// var socket = io();
+	function MakeRoom(){
+		var obj = new Object();
+		obj.type = selected.substring(1,selected.length);
+		obj.openPositions=position;
+		obj.privacy = privacy;
+		obj.political = political;
+		obj.serious = $("#points").val();
+		obj.topic = $("#comment").val();
+		obj.username = $("#Name").val();
+		obj.topicPre = false;
+		obj.sidesPre = (position === "Random");
+		socket.emit('createDebate', obj);
   	//change 
   	$( "#cloak" ).fadeTo( "slow" , 0, function() {
-			$("#cloak2").css('display', 'block');
-			$("#cloak2").fadeIn("slow");
-			$( "body" ).scrollTop( 0 );
-			var pol = (obj.political==="Yes") ? "Political" : "Unpolitical";
-			var serious = "Unserious";
-			switch(obj.serious) {
-    			case 1:
-       				 serious = "Mildy Serious";
-       				 break;
-       			case 2:
-       				 serious = "Fairly Serious";
-       				 break;
-    			case 3:
-       				 serious = "Quite Serious";
-       				 break;
-       			case 4:
-       				 serious = "Serious";
-       				 break;
-			} 
-			$("#debate_details").html("<p>Debate Style: "+obj.type+"</p><p>"+privacy+"</p><p>"+pol+"</p><p>"+serious+"</p><p><i>"+obj.topic+"</i></p><p>Your Position: "+obj.openPositions+" </p>");
-	});
+  		$("#cloak2").css('display', 'block');
+  		$("#cloak2").fadeIn("slow");
+  		$( "body" ).scrollTop( 0 );
+  		var pol = (obj.political==="Yes") ? "Political" : "Unpolitical";
+  		var serious = "Unserious";
+  		switch(obj.serious) {
+  			case 1:
+  			serious = "Mildy Serious";
+  			break;
+  			case 2:
+  			serious = "Fairly Serious";
+  			break;
+  			case 3:
+  			serious = "Quite Serious";
+  			break;
+  			case 4:
+  			serious = "Serious";
+  			break;
+  		} 
+  		$("#debate_details").html("<p>Debate Style: "+obj.type+"</p><p>"+privacy+"</p><p>"+pol+"</p><p>"+serious+"</p><p><i>"+obj.topic+"</i></p><p>Your Position: "+obj.openPositions+" </p>");
+  	});
 
   }
   function debate(index){
-  	alert(index);
-  }
+  	var daroom = "";
+  	console.log(index);
+  	daroom = index.room;
+  	console.log("room: " + daroom);
 
 
-  function displayMatch2(){
-  	var html = "";
-  	var debates = 0;
-  	$.getJSON("/debate/debates", function(data) {
-  		for(var i=0; i<data.length;i++){
-  			if(data[i].state==1){
-  				debates++;
-	  			var pol = (data[i].political) ? "Political" : "Unpolitical";
-	  			var serious = "Unserious";
-	  			var pos = "Random";
-	  			if(data[i].openPositions==="Pro"){
-	  				pos = "Con";
-	  			}else if(data[i].openPositions==="Con"){
-	  				pos = "Pro";
-	  			}
+  	socket.emit("joinDebate", {"room":daroom, "username": "hoodlum2"});
+  	alert('hello world');
+        // console.log("sockid: " + socket.id);
+	// alert(index);
+}
+
+
+function displayMatch2(){
+	var html = "";
+	var debates = 0;
+	$.getJSON("/debate/debates", function(data) {
+		for(var i=0; i<data.length;i++){
+			if(data[i].state==1){
+				debates++;
+				var pol = (data[i].political) ? "Political" : "Unpolitical";
+				var serious = "Unserious";
+				var pos = "Random";
+				if(data[i].openPositions==="Pro"){
+					pos = "Con";
+				}else if(data[i].openPositions==="Con"){
+					pos = "Pro";
+				}
 				switch(data[i].serious) {
-	    			case 1:
-	       				 serious = "Mildy Serious";
-	       				 break;
-	       			case 2:
-	       				 serious = "Fairly Serious";
-	       				 break;
-	    			case 3:
-	       				 serious = "Quite Serious";
-	       				 break;
-	       			case 4:
-	       				 serious = "Serious";
-	       				 break;
+					case 1:
+					serious = "Mildy Serious";
+					break;
+					case 2:
+					serious = "Fairly Serious";
+					break;
+					case 3:
+					serious = "Quite Serious";
+					break;
+					case 4:
+					serious = "Serious";
+					break;
 				} 
+				console.log("data[i]");
+				console.log(data[i]);
 
-	  			html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='20%'><p class='debates_p'> <b>Opponents:</b> "+data[i].debaters[0]+" vs "+data[i].debaters[1]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
-	  		}
+				html+="<br><table href='#' onclick='debate("+data[i]+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='20%'><p class='debates_p'> <b>Opponents:</b> "+data[i].debaters[0]+" vs "+data[i].debaters[1]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+			}
 
-  		}
-  		if(debates==0){
-  			html = "<br>None";
-  		}
+		}
+		if(debates==0){
+			html = "<br>None";
+		}
 
-  		$("#occuring_debates").html(html);
+		$("#occuring_debates").html(html);
 
 	});
-  	
-  }
+
+}
 
 
 
-  function displayMatch(){
-  	var html = "";
-  	var debates = 0;
-  	$.getJSON("/debate/debates", function(data) {
+function displayMatch(){
+	var html = "";
+	var debates = 0;
+	$.getJSON("/debate/debates", function(data) {
 
-  		for(var i=0; i<data.length;i++){
-  			if(data[i].state==0){
-  				debates++;
-	  			var pol = (data[i].political) ? "Political" : "Unpolitical";
-	  			var serious = "Unserious";
-	  			var pos = "Random";
-	  			if(data[i].openPositions==="Pro"){
-	  				pos = "Con";
-	  			}else if(data[i].openPositions==="Con"){
-	  				pos = "Pro";
-	  			}
+		for(var i=0; i<data.length;i++){
+			if(data[i].state==0){
+				debates++;
+				var pol = (data[i].political) ? "Political" : "Unpolitical";
+				var serious = "Unserious";
+				var pos = "Random";
+				if(data[i].openPositions==="Pro"){
+					pos = "Con";
+				}else if(data[i].openPositions==="Con"){
+					pos = "Pro";
+				}
 				switch(data[i].serious) {
-	    			case 1:
-	       				 serious = "Mildy Serious";
-	       				 break;
-	       			case 2:
-	       				 serious = "Fairly Serious";
-	       				 break;
-	    			case 3:
-	       				 serious = "Quite Serious";
-	       				 break;
-	       			case 4:
-	       				 serious = "Serious";
-	       				 break;
+					case 1:
+					serious = "Mildy Serious";
+					break;
+					case 2:
+					serious = "Fairly Serious";
+					break;
+					case 3:
+					serious = "Quite Serious";
+					break;
+					case 4:
+					serious = "Serious";
+					break;
 				} 
 
-	  			html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+"Public"+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> "+data[i].debaters[0]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
-	  		}
+				html+="<br><table href='#' onclick='debate("+i+")' id='table_"+i+"' class='debates_table'bgcolor='#CECECE' width='80%' height = '5%' border='1' border-color='black'><td class='debates_td' width='10%'><p class='debates_p'> <b>Type:</b> "+data[i].type+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+"Public"+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+pol+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> "+serious+"</p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Position:</b> "+pos+" </p></td><td class='debates_td' width='10%'><p class='debates_p'> <b>Opponent:</b> "+data[i].debaters[0]+" </p></td><tr><td colspan = '6' class='debates_td2' width='100%'><p class='debates_p'> <b>Topic:</b> "+data[i].topic+"</p></td></table>";
+			}
 
-  		}
+		}
 
-  		if(debates==0){
-  			html = "<br>None";
-  		}
+		if(debates==0){
+			html = "<br>None";
+		}
 
-  		$("#pending_debates").html(html);
+		$("#pending_debates").html(html);
 
 	});
-  	
-  }
-  function displayMatches(){
-  	displayMatch();
-  	setInterval(displayMatch, 3000);
-  }
 
-   function displayMatches2(){
-  	displayMatch2();
-  	setInterval(displayMatch2, 3000);
-  }
+}
+function displayMatches(){
+	displayMatch();
+	setInterval(displayMatch, 3000);
+}
+
+function displayMatches2(){
+	displayMatch2();
+	setInterval(displayMatch2, 3000);
+}
 </script>
 
 
 
 <body>
-<div id="back_btn" class ="back_btn" style="display:none;"><a href="/">Back</a></div>
-<br><br>
+	<div id="back_btn" class ="back_btn" style="display:none;"><a href="/">Back</a></div>
+	<br><br>
 
 	<div id="Title" class="title">
 		Debatonator V1.0
@@ -419,31 +431,31 @@ p.debates_p{
 
 	<div id="cloak4" style="display:none">
 		<div align="center">
-				<div class='title'> Debates Occuring</div>
-				<div id="occuring_debates">
-					
+			<div class='title'> Debates Occuring</div>
+			<div id="occuring_debates">
 
-				</div>
+
+			</div>
 		</div>
 	</div>
 
 	<div id="cloak3" style="display:none">
 		<div align="center">
-				<div class='title'> Current Pending Debates</div>
-				<div id="pending_debates">
-					
+			<div class='title'> Current Pending Debates</div>
+			<div id="pending_debates">
 
-				</div>
+
+			</div>
 		</div>
 	</div>
 
 	<div id="cloak2" style="display:none">
 		<div class='title'> Waiting for a Competitor</div>
 		<div align = "center"><br>
-		<img src = "images/loading.GIF">
-		
-		<br><br><br>
-		<div id="debate_details"></div>
+			<img src = "images/loading.GIF">
+
+			<br><br><br>
+			<div id="debate_details"></div>
 		</div>
 	</div>
 
@@ -451,50 +463,50 @@ p.debates_p{
 	<div id="cloak" style="display:none">
 		<div class='title'> Starting a Debate </div>
 		<div align="center">
-		<table border="0">
-			<td valign="center">
-			<br><br><br>
-			<div class='subtitle'>Type:</div>
-			</td>
-			<td valign="center">
-				<section class='main' style="z-index:10">
-					<div class='wrapper-demo'>
-						<div id='dd' class='wrapper-dropdown-5' tabindex='1'><p id="Mode">Parlimentary</p><ul class='dropdown'>
-		<li id="Parlimentary" style="display:none"><a onclick="setType('Parlimentary')">Parlimentary</a></li>
-		<li id="Ethics" style="display:block"><a onclick="setType('Ethics')">Ethical Delemma</a></li>
-		<li id="OneVOne" style="display:block"><a onclick="setType('One')">One vs One</a></li>
-		<li id="Presidential" style="display:block"><a onclick="setType('Presidential')">Presidential</a></li>
+			<table border="0">
+				<td valign="center">
+					<br><br><br>
+					<div class='subtitle'>Type:</div>
+				</td>
+				<td valign="center">
+					<section class='main' style="z-index:10">
+						<div class='wrapper-demo'>
+							<div id='dd' class='wrapper-dropdown-5' tabindex='1'><p id="Mode">Parlimentary</p><ul class='dropdown'>
+								<li id="Parlimentary" style="display:none"><a onclick="setType('Parlimentary')">Parlimentary</a></li>
+								<li id="Ethics" style="display:block"><a onclick="setType('Ethics')">Ethical Delemma</a></li>
+								<li id="OneVOne" style="display:block"><a onclick="setType('One')">One vs One</a></li>
+								<li id="Presidential" style="display:block"><a onclick="setType('Presidential')">Presidential</a></li>
 							</ul>
 						</div>
 					</div>
 				</section>
-				</td><tr>
-				<td>
-					<br><br><br>
-					<div class='subtitle'>Privacy:</div>
+			</td><tr>
+			<td>
+				<br><br><br>
+				<div class='subtitle'>Privacy:</div>
 
-				</td>
-				<td>
-					
-					<section class='main'>
+			</td>
+			<td>
+
+				<section class='main'>
 					<div class='wrapper-demo'>
 						<div id='dd2' class='wrapper-dropdown-5' tabindex='1' onclick="setPrivacy()"><p id="Privacy">Public</p>
 						</div>
 					</div>
 				</section>
 
-				</td><tr>
-				<td>
-					<br><br><br>
-					<div class='subtitle'>Is Political?:</div></td>
+			</td><tr>
+			<td>
+				<br><br><br>
+				<div class='subtitle'>Is Political?:</div></td>
 				<td>
 					
 					<section class='main'>
-					<div class='wrapper-demo'>
-						<div id='dd3' class='wrapper-dropdown-5' tabindex='1' onclick="setPolitical()"><p id="Political">Yes</p>
+						<div class='wrapper-demo'>
+							<div id='dd3' class='wrapper-dropdown-5' tabindex='1' onclick="setPolitical()"><p id="Political">Yes</p>
+							</div>
 						</div>
-					</div>
-				</section>
+					</section>
 
 
 				</td><tr>
@@ -508,121 +520,121 @@ p.debates_p{
 					<input type="range" name="points" id="points" value="2" min="0" max="4">
 				</td>
 				<tr>
-				<td>
-					<br><br><br>
-					<div class='subtitle'>Topic:</div></td>
-				</td>
-				<td>
-					<br><br><br>
-					 <textarea class="form-control" rows="5" cols="40" id="comment"></textarea>
+					<td>
+						<br><br><br>
+						<div class='subtitle'>Topic:</div></td>
+					</td>
+					<td>
+						<br><br><br>
+						<textarea class="form-control" rows="5" cols="40" id="comment"></textarea>
 
-				</td>
-				<tr>
-				<td>
-					<br><br><br>
-					<div class='subtitle'>Position:</div></td>
-				</td>
-				<td>
-					
-
-					<section class='main'>
-					<div class='wrapper-demo'>
-						<div id='dd4' class='wrapper-dropdown-5' tabindex='1' onclick="setPosition()"><p id="Position">Pro</p>
-						</div>
-					</div>
-					</section>
-
-				</td><tr>
-				<td>
-					<br><br><br>
-					<div class='subtitle'>Name:</div></td>
-				</td>
-				<td>
-					<br><br><br>
-					 <input type="text" class="form-control" id="Name" style="font-family:'Helvetica', Times, serif;  
-   font-size: 22px;"></input>
+					</td>
+					<tr>
+						<td>
+							<br><br><br>
+							<div class='subtitle'>Position:</div></td>
+						</td>
+						<td>
 
 
-				</td>
-				</table></div>
+							<section class='main'>
+								<div class='wrapper-demo'>
+									<div id='dd4' class='wrapper-dropdown-5' tabindex='1' onclick="setPosition()"><p id="Position">Pro</p>
+									</div>
+								</div>
+							</section>
 
-				<button id="StartDeb2" class = "StartDebate" onmouseover="changeColor(4)" onmouseout="restore(4)" onclick="MakeRoom()"> Make Debate Room </button><br>
-	</div>
+						</td><tr>
+						<td>
+							<br><br><br>
+							<div class='subtitle'>Name:</div></td>
+						</td>
+						<td>
+							<br><br><br>
+							<input type="text" class="form-control" id="Name" style="font-family:'Helvetica', Times, serif;  
+							font-size: 22px;"></input>
 
-	<script type="text/javascript">
-	$('body').css('background', '#e6e6e6');
-	$( "#StartDeb" ).click(function() {
-		$( "#StartDeb" ).fadeOut( "fast" );
-		$( "#JoinDeb" ).fadeOut( "fast" );
-		$( "#ViewDeb" ).fadeOut( "fast" );
+
+						</td>
+					</table></div>
+
+					<button id="StartDeb2" class = "StartDebate" onmouseover="changeColor(4)" onmouseout="restore(4)" onclick="MakeRoom()"> Make Debate Room </button><br>
+				</div>
+
+				<script type="text/javascript">
+					$('body').css('background', '#e6e6e6');
+					$( "#StartDeb" ).click(function() {
+						$( "#StartDeb" ).fadeOut( "fast" );
+						$( "#JoinDeb" ).fadeOut( "fast" );
+						$( "#ViewDeb" ).fadeOut( "fast" );
 
 
-		$( "#Title" ).fadeTo( "slow" , 0, function() {
-			$( "#cloak:hidden:first" ).fadeIn( "slow" );
-			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
+						$( "#Title" ).fadeTo( "slow" , 0, function() {
+							$( "#cloak:hidden:first" ).fadeIn( "slow" );
+							$( "#back_btn:hidden:first" ).fadeIn( "slow" );
 			//$("#cloak").css('visibility', 'visible');
 			//$("#startForm").fadeIn("fast");
 		});
-	});
+					});
 
 
-	$( "#JoinDeb" ).click(function() {
-		$( "#StartDeb" ).fadeOut( "fast" );
-		$( "#JoinDeb" ).fadeOut( "fast" );
-		$( "#ViewDeb" ).fadeOut( "fast" );
-		$( "#Title" ).fadeTo( "slow" , 0, function() {
-			$( "#cloak3:hidden:first" ).fadeIn( "slow" );
-			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
-			displayMatches();
-		});
-	});
+					$( "#JoinDeb" ).click(function() {
+						$( "#StartDeb" ).fadeOut( "fast" );
+						$( "#JoinDeb" ).fadeOut( "fast" );
+						$( "#ViewDeb" ).fadeOut( "fast" );
+						$( "#Title" ).fadeTo( "slow" , 0, function() {
+							$( "#cloak3:hidden:first" ).fadeIn( "slow" );
+							$( "#back_btn:hidden:first" ).fadeIn( "slow" );
+							displayMatches();
+						});
+					});
 
-	$( "#ViewDeb" ).click(function() {
-		$( "#StartDeb" ).fadeOut( "fast" );
-		$( "#JoinDeb" ).fadeOut( "fast" );
-		$( "#ViewDeb" ).fadeOut( "fast" );
-		$( "#Title" ).fadeTo( "slow" , 0, function() {
-			$( "#cloak4:hidden:first" ).fadeIn( "slow" );
-			$( "#back_btn:hidden:first" ).fadeIn( "slow" );
-			displayMatches2();
-		});
-	});
+					$( "#ViewDeb" ).click(function() {
+						$( "#StartDeb" ).fadeOut( "fast" );
+						$( "#JoinDeb" ).fadeOut( "fast" );
+						$( "#ViewDeb" ).fadeOut( "fast" );
+						$( "#Title" ).fadeTo( "slow" , 0, function() {
+							$( "#cloak4:hidden:first" ).fadeIn( "slow" );
+							$( "#back_btn:hidden:first" ).fadeIn( "slow" );
+							displayMatches2();
+						});
+					});
 
-	</script>
+				</script>
 
-			
-		</div>
-		<!-- jQuery if needed -->
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script type="text/javascript">
 
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
+			</div>
+			<!-- jQuery if needed -->
+			<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+			<script type="text/javascript">
 
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});	
+				function DropDown(el) {
+					this.dd = el;
+					this.initEvents();
 				}
-			}
+				DropDown.prototype = {
+					initEvents : function() {
+						var obj = this;
 
-			$(function() {
+						obj.dd.on('click', function(event){
+							$(this).toggleClass('active');
+							event.stopPropagation();
+						});	
+					}
+				}
 
-				var dd = new DropDown( $('#dd') );
+				$(function() {
 
-				$(document).click(function() {
+					var dd = new DropDown( $('#dd') );
+
+					$(document).click(function() {
 					// all dropdowns
 					$('.wrapper-dropdown-5').removeClass('active');
 				});
 
-			});
+				});
 
-		</script>
-		<script src="http://tympanus.net/codrops/adpacks/demoad.js"></script>
+			</script>
+			<script src="http://tympanus.net/codrops/adpacks/demoad.js"></script>
 
-</body>
+		</body>

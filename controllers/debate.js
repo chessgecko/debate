@@ -29,6 +29,7 @@ exports.respondConnect = function(socket){
 				console.log(err);
 				return;
 			}
+			log(debate);
 			if(debate.debaters.indexOf(msg.username) != -1 || debate.observers.indexOf(msg.username) != -1){
 				socket.emit("bad username", msg.username);
 				return;
