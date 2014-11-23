@@ -31,7 +31,6 @@ $.get("http://localhost:3000/debate/debates", function( data ) {
         daroom = data[0]["room"];
         console.log("room: " + daroom);
         //var socket = io();
-
         socket.emit("joinDebate", {"room":daroom, "username": "hoodlum2"});
         console.log("sockid: " + socket.id);
     }
@@ -90,10 +89,12 @@ socket.on('your turn to speak', function(msg){
 });
 
 socket.on("send sound", function(msg){
+    if(shouldRecord){
+        return;
+    }
     if(!shouldPlay){
         setTimeout(blobPlayTimerF, 50);
         shouldPlay = true;
-
     }
     console.log("got sound");
 
@@ -122,9 +123,9 @@ socket.on("send sound", function(msg){
             }
         }
     });
-
     sounds.push(mySound);
-})
+    console.log(sounds.length);
+});
 
 socket.on("talking time", function(msg) {
     shouldPlay = false;
@@ -223,7 +224,7 @@ function blobCreateTimerF(){
         //console.log(JSON.stringify(blob));
         var send = {"speakerKey":speakerKey, "sound":JSON.stringify(ob), "room":room};
         socket.emit("send sound", send);
-        setTimeout(blobCreateTimerF, 1000);
+        setTimeout(blobCreateTimerF, 2000);
     }
 }
 
@@ -320,7 +321,7 @@ function blobPlayTimerF(){
             playBlob();
         } else{
             console.log('delayed')
-            setTimeout(blobPlayTimerF, 10);
+            setTimeout(blobPlayTimerF, 100);
         }
     }
 }

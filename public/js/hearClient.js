@@ -34,7 +34,7 @@ window.onkeydown = function(e){
     if ( e.keyCode == 82 ){
         blobs = [];
         shouldPlay = true;
-        setTimeout(blobPlayTimerF, 0);
+        setTimeout(blobPlayTimerF, 1000);
     } else if ( e.keyCode == 83 ){
         shouldPlay = false;
     }
@@ -63,7 +63,7 @@ socket.on('sound blob', function(msg){
      var mySound = soundManager.createSound({
         url: (window.URL || window.webkitURL).createObjectURL(createBlob()),
         onfinish: function(){
-            if(sounds.length > 1){
+            if(sounds.length >= 0){
                 playBlob();
                 console.log(sounds.length);
             } else {
@@ -71,8 +71,8 @@ socket.on('sound blob', function(msg){
             }
         }
     });
-
     sounds.push(mySound);
+    console.log('pushed');
 });
 
 function blobPlayTimerF(){
@@ -81,7 +81,7 @@ function blobPlayTimerF(){
             playBlob();
         } else{
             console.log('delayed')
-            setTimeout(blobPlayTimerF, 10);
+            setTimeout(blobPlayTimerF, 200);
         }
     }
 }

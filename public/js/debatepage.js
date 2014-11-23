@@ -208,7 +208,7 @@ function blobCreateTimerF(){
         console.log('create Timer F');
         var send = {"speakerKey":speakerKey, "sound":JSON.stringify(ob), "room":room};
         socket.emit("send sound", send);
-        setTimeout(blobCreateTimerF, 500);
+        setTimeout(blobCreateTimerF, 2000);
     }
 }
 
@@ -305,7 +305,7 @@ function blobPlayTimerF(){
             playBlob();
         } else{
             console.log('delayed')
-            setTimeout(blobPlayTimerF, 10);
+            setTimeout(blobPlayTimerF, 100);
         }
     }
 }

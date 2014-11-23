@@ -9,7 +9,6 @@ var audioInput = null;
 var sampleRate = 44100;
 var audioContext = null;
 var context = null;
-var outputElement = document.getElementById('output');
 var outputString;
 var shouldPlay = false;
 var shouldRecord = false;
@@ -21,43 +20,25 @@ var sounds = [];
 //socket stuff
 var speakerKey = 0;
 var room = "";
+
 var socket = io();
 
-socket.on("debate starting", function(msg){
-    console.log("debate starting");
+socket.on("debater joined", function(msg){
+    console.log("debater joined");
 });
 
-socket.on("joined room debater", function(data){
-    console.log("joined debater room");
-})
-
-var fakedCreate = {
-    "topic":"some topic",
-    "political": 0,
-    "type": "parli",
-    "topicPre":1,
-    "sidesPre":1,
-    "openPositions": "opposition",
-    "serious": 1,
-    "username": "createrusername",
-}
-
-
+console.log("sockid: " + socket.id);
 
 soundManager.setup({
-	url: '.',
-	onready: function() {
+    url: '.',
+    onready: function() {
 
-	},
-	ontimeout: function() {
-    			// Hrmm, SM2 could not start. Missing SWF? Flash blocked? Show an error, etc.?
-    			alert('ontimeout');
-    		}
-    	});
-
-socket.on("thinking time", function(msg){
-    console.log("thinking time");
-});
+    },
+    ontimeout: function() {
+                // Hrmm, SM2 could not start. Missing SWF? Flash blocked? Show an error, etc.?
+                alert('ontimeout');
+            }
+        });
 
 socket.on('your turn to speak', function(msg){
     console.log("recieved turn");
@@ -68,20 +49,22 @@ socket.on('your turn to speak', function(msg){
     // reset the buffers for the new recording
     leftchannel.length = rightchannel.length = 0;
     recordingLength = 0;
-    outputElement.innerHTML = 'Recording now...';
     setTimeout(blobCreateTimerF, 0);
     //setTimeout(blobPlayTimerF, 1000);
     speakerKey = msg.key;
     room = msg.room;
 });
 
+socket.on("thinking time", function(msg){
+    console.log("thinking time");
+})
+
 socket.on("send sound", function(msg){
+
     if(!shouldPlay){
         setTimeout(blobPlayTimerF, 50);
         shouldPlay = true;
-
     }
-    console.log("got sound");
 
     var ob = JSON.parse(msg);//new Blob ( [blob], { type : 'audio/wav' } );
     lc = JSON.parse(ob["L"]);
@@ -149,13 +132,13 @@ socket.on('sound blob', function(msg){
 
 // feature detection 
 if (!navigator.getUserMedia)
-	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
 navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 if (navigator.getUserMedia){
-	navigator.getUserMedia({audio:true}, success, function(e) {
-		alert('Error capturing audio.');
-	});
+    navigator.getUserMedia({audio:true}, success, function(e) {
+        alert('Error capturing audio.');
+    });
 } else alert('getUserMedia not supported in this browser.');
 
 function success(e){
@@ -182,9 +165,9 @@ function success(e){
     recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
     recorder.onaudioprocess = function(e){
-    	if (!recording) return;
-    	var left = e.inputBuffer.getChannelData (0);
-    	var right = e.inputBuffer.getChannelData (1);
+        if (!recording) return;
+        var left = e.inputBuffer.getChannelData (0);
+        var right = e.inputBuffer.getChannelData (1);
         // we clone the samples
         leftchannel.push (new Float32Array (left));
         rightchannel.push (new Float32Array (right));
@@ -200,22 +183,22 @@ function success(e){
 function blobCreateTimerF(){
     if(shouldRecord){
         var lc = "";
-        // for(var i = 0; i< leftchannel.length; i++){
-        //     lc
-        // }
+        for(var i = 0; i< leftchannel.length; i++){
+            lc
+        }
         var ob = {"L": JSON.stringify(leftchannel), "R": JSON.stringify(rightchannel), "rlen":""+recordingLength}
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
         //console.log(JSON.stringify(blob));
+        console.log('create Timer F');
         var send = {"speakerKey":speakerKey, "sound":JSON.stringify(ob), "room":room};
         socket.emit("send sound", send);
-        setTimeout(blobCreateTimerF, 1000);
+        setTimeout(blobCreateTimerF, 2000);
     }
 }
 
 
 function createBlob(){
-    outputElement.innerHTML = 'Building wav file...';
 
         // we flat the left and right channels down
         var leftBuffer = mergeBuffers ( leftchannel, recordingLength );
@@ -306,7 +289,7 @@ function blobPlayTimerF(){
             playBlob();
         } else{
             console.log('delayed')
-            setTimeout(blobPlayTimerF, 10);
+            setTimeout(blobPlayTimerF, 100);
         }
     }
 }
